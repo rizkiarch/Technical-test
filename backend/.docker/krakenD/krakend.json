@@ -310,13 +310,15 @@
       "backend": [
         {
           "url_pattern": "/api/animals",
-          "encoding": "json",
+          "encoding": "no-op",
           "sd": "static",
           "method": "POST",
           "host": ["http://user-service:6001"],
           "disable_host_sanitize": false
         }
-      ]
+      ],
+      "input_query_strings": ["*"],
+      "input_headers": ["*"]
     },
     {
       "endpoint": "/api/animals/{id}",
