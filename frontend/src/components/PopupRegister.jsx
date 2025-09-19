@@ -9,7 +9,7 @@ const PopupRegister = ({ isOpen, onClose, onSubmit }) => {
         no_telp_owner: '',
         email_owner: '',
         time_register: '',
-        photo_url: null
+        photo: null
     });
 
     const [errors, setErrors] = useState({});
@@ -18,14 +18,14 @@ const PopupRegister = ({ isOpen, onClose, onSubmit }) => {
     const handleInputChange = (e) => {
         const { name, value, files } = e.target;
 
-        if (name === 'photo_url') {
+        if (name === 'photo') {
             const file = files[0];
             if (file) {
                 const maxSize = 2 * 1024 * 1024;
                 if (file.size > maxSize) {
                     setErrors(prev => ({
                         ...prev,
-                        photo_url: 'File size must be less than 2MB'
+                        photo: 'File size must be less than 2MB'
                     }));
                     return;
                 }
@@ -34,19 +34,19 @@ const PopupRegister = ({ isOpen, onClose, onSubmit }) => {
                 if (!allowedTypes.includes(file.type)) {
                     setErrors(prev => ({
                         ...prev,
-                        photo_url: 'Only JPEG, PNG, and GIF files are allowed'
+                        photo: 'Only JPEG, PNG, and GIF files are allowed'
                     }));
                     return;
                 }
 
                 setFormData(prev => ({
                     ...prev,
-                    photo_url: file
+                    photo: file
                 }));
             } else {
                 setFormData(prev => ({
                     ...prev,
-                    photo_url: null
+                    photo: null
                 }));
             }
         } else {
@@ -95,8 +95,8 @@ const PopupRegister = ({ isOpen, onClose, onSubmit }) => {
             newErrors.time_register = 'Registration time is required';
         }
 
-        if (formData.photo_url && formData.photo_url.size > 2 * 1024 * 1024) {
-            newErrors.photo_url = 'Photo size must be less than 2MB';
+        if (formData.photo && formData.photo.size > 2 * 1024 * 1024) {
+            newErrors.photo = 'Photo size must be less than 2MB';
         }
 
         setErrors(newErrors);
@@ -127,8 +127,8 @@ const PopupRegister = ({ isOpen, onClose, onSubmit }) => {
                 submitData.append('time_registered', formattedDateTime);
             }
 
-            if (formData.photo_url) {
-                submitData.append('photo_url', formData.photo_url);
+            if (formData.photo) {
+                submitData.append('photo', formData.photo);
             }
 
             await onSubmit(submitData);
@@ -140,7 +140,7 @@ const PopupRegister = ({ isOpen, onClose, onSubmit }) => {
                 no_telp_owner: '',
                 email_owner: '',
                 time_register: '',
-                photo_url: null
+                photo: null
             });
             setErrors({});
             onClose();
@@ -161,7 +161,7 @@ const PopupRegister = ({ isOpen, onClose, onSubmit }) => {
                 no_telp_owner: '',
                 email_owner: '',
                 time_register: '',
-                photo_url: null
+                photo: null
             });
             setErrors({});
             onClose();
@@ -307,27 +307,27 @@ const PopupRegister = ({ isOpen, onClose, onSubmit }) => {
                                 <div className="file-upload-container">
                                     <input
                                         type="file"
-                                        name="photo_url"
+                                        name="photo"
                                         onChange={handleInputChange}
-                                        className={`form-input file-input ${errors.photo_url ? 'error' : ''}`}
+                                        className={`form-input file-input ${errors.photo ? 'error' : ''}`}
                                         accept="image/jpeg,image/jpg,image/png,image/gif"
                                         disabled={isSubmitting}
                                     />
                                     <div className="file-upload-info">
-                                        {formData.photo_url ? (
+                                        {formData.photo ? (
                                             <div className="file-preview">
-                                                <span className="file-name">📁 {formData.photo_url.name}</span>
+                                                <span className="file-name">📁 {formData.photo.name}</span>
                                                 <span className="file-size">
-                                                    ({(formData.photo_url.size / 1024 / 1024).toFixed(2)} MB)
+                                                    ({(formData.photo.size / 1024 / 1024).toFixed(2)} MB)
                                                 </span>
                                             </div>
                                         ) : (
-                                            <span className="file-placeholder">Choose a photo_url file (JPEG, PNG, GIF)</span>
+                                            <span className="file-placeholder">Choose a photo file (JPEG, PNG, GIF)</span>
                                         )}
                                     </div>
                                 </div>
-                                {errors.photo_url && (
-                                    <div className="form-error">{errors.photo_url}</div>
+                                {errors.photo && (
+                                    <div className="form-error">{errors.photo}</div>
                                 )}
                             </div>
                         </div>

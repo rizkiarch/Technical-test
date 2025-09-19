@@ -4,7 +4,7 @@ import { getStorageImageUrl } from './storageUtils';
 export const mapAnimalData = (backendData) => {
     // Handle image URL conversion
     const imageUrl = getStorageImageUrl(backendData.photo || backendData.image);
-    
+
     return {
         id: backendData.id,
         image: imageUrl, // Convert database path to storage API URL
