@@ -12,12 +12,12 @@ export const getStorageImageUrl = (imagePath, baseUrl = null) => {
     }
 
     const apiBaseUrl = baseUrl || import.meta.env.VITE_API_URL || 'http://localhost:8080';
-    
+
     // Remove "animals/" prefix if present since the endpoint already includes it
-    const filename = imagePath.startsWith('animals/') 
-        ? imagePath.replace('animals/', '') 
+    const filename = imagePath.startsWith('animals/')
+        ? imagePath.replace('animals/', '')
         : imagePath;
-    
+
     return `${apiBaseUrl}/api/storage/animals/${filename}`;
 };
 
@@ -28,8 +28,8 @@ export const getStorageImageUrl = (imagePath, baseUrl = null) => {
  */
 export const getImageFilename = (imagePath) => {
     if (!imagePath) return '';
-    
-    return imagePath.startsWith('animals/') 
-        ? imagePath.replace('animals/', '') 
+
+    return imagePath.startsWith('animals/')
+        ? imagePath.replace('animals/', '')
         : imagePath;
 };
