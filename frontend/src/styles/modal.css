@@ -1,0 +1,249 @@
+/* Modal/Popup styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  max-width: 500px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  transform: scale(0.9) translateY(-50px);
+  transition: all 0.3s ease;
+}
+
+.modal-overlay.active .modal-content {
+  transform: scale(1) translateY(0);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.modal-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #2d3748;
+  margin: 0;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #718096;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.modal-close:hover {
+  background-color: #f7fafc;
+  color: #4a5568;
+}
+
+.modal-body {
+  margin-bottom: 24px;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding-top: 16px;
+  border-top: 1px solid #e2e8f0;
+}
+
+/* Form grid for modal */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+.form-grid-2 {
+  grid-template-columns: 1fr 1fr;
+}
+
+@media (max-width: 640px) {
+  .form-grid-2 {
+    grid-template-columns: 1fr;
+  }
+  
+  .modal-content {
+    margin: 20px;
+    padding: 20px;
+  }
+  
+  .modal-footer {
+    flex-direction: column;
+  }
+  
+  .modal-footer .btn {
+    width: 100%;
+  }
+}
+
+/* Modal animations */
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes modalFadeOut {
+  from {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.9) translateY(-50px);
+  }
+}
+
+/* Success modal styling */
+.modal-success .modal-header {
+  border-color: #9ae6b4;
+}
+
+.modal-success .modal-title {
+  color: #276749;
+}
+
+/* Error modal styling */
+.modal-error .modal-header {
+  border-color: #fc8181;
+}
+
+.modal-error .modal-title {
+  color: #742a2a;
+}
+
+/* Confirmation modal styling */
+.modal-confirm .modal-body {
+  text-align: center;
+  padding: 20px 0;
+}
+
+.modal-confirm .confirm-icon {
+  font-size: 3rem;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.modal-confirm.warning .confirm-icon {
+  color: #d69e2e;
+}
+
+.modal-confirm.danger .confirm-icon {
+  color: #e53e3e;
+}
+
+/* Form grid full width */
+.form-grid-2 .form-group-full {
+  grid-column: 1 / -1;
+}
+
+/* File upload styles */
+.file-upload-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.file-input {
+  padding: 8px;
+  border: 2px dashed #cbd5e0;
+  border-radius: 8px;
+  background-color: #f7fafc;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.file-input:hover {
+  border-color: #4299e1;
+  background-color: #ebf8ff;
+}
+
+.file-input:focus {
+  outline: none;
+  border-color: #4299e1;
+  box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
+}
+
+.file-upload-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.875rem;
+  color: #718096;
+}
+
+.file-preview {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #2d3748;
+}
+
+.file-name {
+  font-weight: 500;
+}
+
+.file-size {
+  color: #718096;
+  font-size: 0.75rem;
+}
+
+.file-placeholder {
+  color: #a0aec0;
+}
+
+/* Error state for file input */
+.file-input.error {
+  border-color: #e53e3e;
+  background-color: #fed7d7;
+}
+
+.file-input.error:hover {
+  border-color: #e53e3e;
+  background-color: #feb2b2;
+}

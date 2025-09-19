@@ -1,0 +1,440 @@
+{
+  "$schema": "https://www.krakend.io/schema/v3.json",
+  "version": 3,
+  "name": "Microservices API Gateway",
+  "timeout": "10000ms",
+  "cache_ttl": "0s",
+  "output_encoding": "json",
+  "host": ["http://krakend:8080"],
+  "port": 8080,
+  "endpoints": [
+    {
+      "endpoint": "/api/users",
+      "method": "GET",
+      "output_encoding": "json",
+      "backend": [
+        {
+          "url_pattern": "/api/users",
+          "encoding": "json",
+          "sd": "static",
+          "method": "GET",
+          "host": ["http://user-service:6001"],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/api/users/{id}",
+      "method": "GET",
+      "output_encoding": "json",
+      "backend": [
+        {
+          "url_pattern": "/api/users/{id}",
+          "encoding": "json",
+          "sd": "static",
+          "method": "GET",
+          "host": ["http://user-service:6001"],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/api/users",
+      "method": "POST",
+      "output_encoding": "json",
+      "backend": [
+        {
+          "url_pattern": "/api/users",
+          "encoding": "json",
+          "sd": "static",
+          "method": "POST",
+          "host": ["http://user-service:6001"],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/api/users/{id}",
+      "method": "PUT",
+      "output_encoding": "json",
+      "backend": [
+        {
+          "url_pattern": "/api/users/{id}",
+          "encoding": "json",
+          "sd": "static",
+          "method": "PUT",
+          "host": ["http://user-service:6001"],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/api/users/{id}",
+      "method": "DELETE",
+      "output_encoding": "json",
+      "backend": [
+        {
+          "url_pattern": "/api/users/{id}",
+          "encoding": "json",
+          "sd": "static",
+          "method": "DELETE",
+          "host": ["http://user-service:6001"],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/api/health",
+      "method": "GET",
+      "output_encoding": "json",
+      "backend": [
+        {
+          "url_pattern": "/api/health",
+          "encoding": "json",
+          "sd": "static",
+          "method": "GET",
+          "host": ["http://user-service:6001"],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/api/categories",
+      "method": "GET",
+      "output_encoding": "json",
+      "backend": [
+        {
+          "url_pattern": "/api/categories",
+          "encoding": "json",
+          "sd": "static",
+          "method": "GET",
+          "host": ["http://user-service:6001"],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/api/categories/with-count",
+      "method": "GET",
+      "output_encoding": "json",
+      "backend": [
+        {
+          "url_pattern": "/api/categories/with-count",
+          "encoding": "json",
+          "sd": "static",
+          "method": "GET",
+          "host": ["http://user-service:6001"],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/api/categories/{type}",
+      "method": "GET",
+      "output_encoding": "json",
+      "backend": [
+        {
+          "url_pattern": "/api/categories/{type}",
+          "encoding": "json",
+          "sd": "static",
+          "method": "GET",
+          "host": ["http://user-service:6001"],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/api/categories",
+      "method": "POST",
+      "output_encoding": "json",
+      "backend": [
+        {
+          "url_pattern": "/api/categories",
+          "encoding": "json",
+          "sd": "static",
+          "method": "POST",
+          "host": ["http://user-service:6001"],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/api/categories/{type}",
+      "method": "PUT",
+      "output_encoding": "json",
+      "backend": [
+        {
+          "url_pattern": "/api/categories/{type}",
+          "encoding": "json",
+          "sd": "static",
+          "method": "PUT",
+          "host": ["http://user-service:6001"],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/api/categories/{type}",
+      "method": "DELETE",
+      "output_encoding": "json",
+      "backend": [
+        {
+          "url_pattern": "/api/categories/{type}",
+          "encoding": "json",
+          "sd": "static",
+          "method": "DELETE",
+          "host": ["http://user-service:6001"],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/api/animals",
+      "method": "GET",
+      "output_encoding": "json",
+      "cache_ttl": "0s",
+      "backend": [
+        {
+          "url_pattern": "/api/animals",
+          "encoding": "json",
+          "sd": "static",
+          "method": "GET",
+          "host": ["http://user-service:6001"],
+          "disable_host_sanitize": false
+        }
+      ],
+      "extra_config": {
+        "modifier/response-headers": {
+          "Cache-Control": "no-cache, no-store, must-revalidate",
+          "Pragma": "no-cache",
+          "Expires": "0"
+        }
+      }
+    },
+    {
+      "endpoint": "/api/animals/search",
+      "method": "GET",
+      "output_encoding": "json",
+      "backend": [
+        {
+          "url_pattern": "/api/animals/search",
+          "encoding": "json",
+          "sd": "static",
+          "method": "GET",
+          "host": ["http://user-service:6001"],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/api/animals/checked-in",
+      "method": "GET",
+      "output_encoding": "json",
+      "backend": [
+        {
+          "url_pattern": "/api/animals/checked-in",
+          "encoding": "json",
+          "sd": "static",
+          "method": "GET",
+          "host": ["http://user-service:6001"],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/api/animals/checked-out",
+      "method": "GET",
+      "output_encoding": "json",
+      "backend": [
+        {
+          "url_pattern": "/api/animals/checked-out",
+          "encoding": "json",
+          "sd": "static",
+          "method": "GET",
+          "host": ["http://user-service:6001"],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/api/animals/rates",
+      "method": "GET",
+      "output_encoding": "json",
+      "backend": [
+        {
+          "url_pattern": "/api/animals/rates",
+          "encoding": "json",
+          "sd": "static",
+          "method": "GET",
+          "host": ["http://user-service:6001"],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/api/animals/category/{category}",
+      "method": "GET",
+      "output_encoding": "json",
+      "backend": [
+        {
+          "url_pattern": "/api/animals/category/{category}",
+          "encoding": "json",
+          "sd": "static",
+          "method": "GET",
+          "host": ["http://user-service:6001"],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/api/animals/{id}",
+      "method": "GET",
+      "output_encoding": "json",
+      "backend": [
+        {
+          "url_pattern": "/api/animals/{id}",
+          "encoding": "json",
+          "sd": "static",
+          "method": "GET",
+          "host": ["http://user-service:6001"],
+          "disable_host_sanitize": false
+        }
+      ],
+      "input_query_strings": ["*"],
+      "input_headers": ["*"]
+    },
+    {
+      "endpoint": "/api/animals",
+      "method": "POST",
+      "output_encoding": "json",
+      "backend": [
+        {
+          "url_pattern": "/api/animals",
+          "encoding": "json",
+          "sd": "static",
+          "method": "POST",
+          "host": ["http://user-service:6001"],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/api/animals/{id}",
+      "method": "PUT",
+      "output_encoding": "json",
+      "backend": [
+        {
+          "url_pattern": "/api/animals/{id}",
+          "encoding": "json",
+          "sd": "static",
+          "method": "PUT",
+          "host": ["http://user-service:6001"],
+          "disable_host_sanitize": false
+        }
+      ],
+      "input_query_strings": ["*"],
+      "input_headers": ["*"]
+    },
+    {
+      "endpoint": "/api/animals/{id}/checkout",
+      "method": "POST",
+      "output_encoding": "json",
+      "backend": [
+        {
+          "url_pattern": "/api/animals/{id}/checkout",
+          "encoding": "json",
+          "sd": "static",
+          "method": "POST",
+          "host": ["http://user-service:6001"],
+          "disable_host_sanitize": false
+        }
+      ],
+      "input_query_strings": ["*"],
+      "input_headers": ["*"]
+    },
+    {
+      "endpoint": "/api/animals/{id}",
+      "method": "DELETE",
+      "output_encoding": "json",
+      "backend": [
+        {
+          "url_pattern": "/api/animals/{id}",
+          "encoding": "json",
+          "sd": "static",
+          "method": "DELETE",
+          "host": ["http://user-service:6001"],
+          "disable_host_sanitize": false
+        }
+      ],
+      "input_query_strings": ["*"],
+      "input_headers": ["*"]
+    },
+    {
+      "endpoint": "/api/storage/animals/{filename}",
+      "method": "GET",
+      "output_encoding": "no-op",
+      "backend": [
+        {
+          "url_pattern": "/api/storage/animals/{filename}",
+          "encoding": "no-op",
+          "sd": "static",
+          "method": "GET",
+          "host": ["http://user-service:6001"],
+          "disable_host_sanitize": false
+        }
+      ],
+      "input_query_strings": ["*"],
+      "input_headers": ["*"]
+    },
+    {
+      "endpoint": "/api/storage/info/animals/{filename}",
+      "method": "GET",
+      "output_encoding": "json",
+      "backend": [
+        {
+          "url_pattern": "/api/storage/info/animals/{filename}",
+          "encoding": "json",
+          "sd": "static",
+          "method": "GET",
+          "host": ["http://user-service:6001"],
+          "disable_host_sanitize": false
+        }
+      ],
+      "input_query_strings": ["*"],
+      "input_headers": ["*"]
+    }
+  ],
+  "extra_config": {
+    "security/cors": {
+      "allow_origins": ["*"],
+      "allow_methods": ["GET", "HEAD", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
+      "allow_headers": ["Origin", "Authorization", "Content-Type", "Accept", "Cache-Control", "Pragma", "Expires"],
+      "expose_headers": ["Content-Length", "Cache-Control", "Pragma", "Expires"],
+      "max_age": "12h",
+      "allow_credentials": false,
+      "debug": false
+    },
+    "router": {
+      "return_error_msg": true,
+      "disable_path_decoding": false,
+      "remove_extra_slash": true,
+      "auto_options": true,
+      "disable_redirect_trailing_slash": true,
+      "disable_redirect_fixed_path": true
+    },
+    "telemetry/logging": {
+      "level": "DEBUG",
+      "prefix": "[KRAKEND]",
+      "syslog": false,
+      "stdout": true
+    },
+    "telemetry/metrics": {
+      "collection_time": "60s",
+      "proxy_disabled": false,
+      "router_disabled": false,
+      "backend_disabled": false,
+      "endpoint_disabled": false,
+      "listen_address": ":8090"
+    }
+  }
+}
