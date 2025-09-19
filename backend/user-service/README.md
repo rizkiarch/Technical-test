@@ -181,36 +181,175 @@ php artisan migrate
 # Migrated:  2024_xx_xx_xxxxxx_create_categories_table (xx.xxms)
 ```
 
-### Langkah 3: Jalankan Seeder (WAJIB)
+### Langkah 3: Setup Data Kategori (WAJIB)
+
+Anda memiliki 2 pilihan untuk setup data kategori yang diperlukan:
+
+#### Option A: Menggunakan Seeder (Recommended)
 
 ```bash
 # Seeder untuk kategori hewan (WAJIB dijalankan)
 php artisan db:seed --class=CategorySeeder
 
 # Output yang diharapkan:
-# Database seeding completed successfully.
+# Categories seeded successfully!
+# Created 5 categories:
+# - Anjing
+# - Kucing
+# - Kelinci
+# - Reptil
+# - Lainnya
 
 # Seeder untuk data dummy animals (opsional)
 php artisan db:seed --class=AnimalSeeder
 
+# Output yang diharapkan:
+# Animals seeded successfully!
+# Created 5 animals:
+# - Buddy (Anjing) - Checked In
+# - Whiskers (Kucing) - Checked In
+# - Max (Anjing) - Checked Out
+# - Luna (Kucing) - Checked In
+# - Fluffy (Kelinci) - Checked In
+
 # Atau jalankan semua seeder sekaligus
 php artisan db:seed
+```
 
+#### Option B: Menggunakan API Calls (Manual)
+
+Jika Anda prefer menggunakan API calls, keluar dari container dan jalankan curl commands:
+
+```bash
+# Exit dari container terlebih dahulu
+exit
+
+# Tambah kategori Anjing
+curl -X POST "http://localhost:8080/api/categories" \
+  -H "Content-Type: application/json" \
+  -d '{"type": "Anjing"}'
+
+# Tambah kategori Kucing
+curl -X POST "http://localhost:8080/api/categories" \
+  -H "Content-Type: application/json" \
+  -d '{"type": "Kucing"}'
+
+# Tambah kategori Kelinci
+curl -X POST "http://localhost:8080/api/categories" \
+  -H "Content-Type: application/json" \
+  -d '{"type": "Kelinci"}'
+
+# Tambah kategori Reptil
+curl -X POST "http://localhost:8080/api/categories" \
+  -H "Content-Type: application/json" \
+  -d '{"type": "Reptil"}'
+
+# Tambah kategori Lainnya
+curl -X POST "http://localhost:8080/api/categories" \
+  -H "Content-Type: application/json" \
+  -d '{"type": "Lainnya"}'
+
+# Verifikasi kategori berhasil ditambahkan
+curl -X GET "http://localhost:8080/api/categories"
+```
+
+#### Option C: Menggunakan Tinker (Advanced)
+
+Jika Anda prefer menggunakan Laravel Tinker:
+
+```bash
+# Masuk ke container Laravel
+docker-compose exec app bash
+
+# Jalankan tinker
+php artisan tinker
+
+# Di dalam tinker, jalankan commands berikut satu per satu:
+```
+
+```php
+// Hapus kategori yang sudah ada (jika ada)
+App\Models\Category::truncate();
+
+// Tambah kategori satu per satu
+App\Models\Category::create(['type' => 'Anjing']);
+App\Models\Category::create(['type' => 'Kucing']);
+App\Models\Category::create(['type' => 'Kelinci']);
+App\Models\Category::create(['type' => 'Reptil']);
+App\Models\Category::create(['type' => 'Lainnya']);
+
+// Verifikasi
+App\Models\Category::all();
+
+// Exit dari tinker
+exit;
+```
+
+```bash
 # Exit dari container
 exit
 ```
 
-### Langkah 4: Verifikasi Database
+### Langkah 4: Verifikasi Setup Database
 
+Pilih salah satu cara untuk memverifikasi database:
+
+#### Via PhpMyAdmin (GUI)
 ```bash
 # Akses PhpMyAdmin di browser
 # URL: http://localhost:8081
 # Username: user
 # Password: password
 # Database: pet_care
+```
 
-# Atau cek via command line
+#### Via Command Line MySQL
+```bash
+# Cek tabel yang tersedia
 docker-compose exec mysql mysql -u user -ppassword -e "USE pet_care; SHOW TABLES;"
+
+# Cek data categories
+docker-compose exec mysql mysql -u user -ppassword -e "USE pet_care; SELECT * FROM categories;"
+
+# Cek jumlah data animals (jika menggunakan AnimalSeeder)
+docker-compose exec mysql mysql -u user -ppassword -e "USE pet_care; SELECT COUNT(*) as total_animals FROM animals;"
+```
+
+#### Via API Endpoints
+```bash
+# Cek daftar kategori via API
+curl http://localhost:8080/api/categories
+
+# Cek daftar animals via API
+curl http://localhost:8080/api/animals
+
+# Response yang diharapkan untuk categories:
+# {
+#   "data": [
+#     {"id": 1, "type": "Anjing", "created_at": "...", "updated_at": "..."},
+#     {"id": 2, "type": "Kucing", "created_at": "...", "updated_at": "..."},
+#     // ... dst
+#   ],
+#   "message": "Categories retrieved successfully",
+#   "status": "success"
+# }
+```
+
+#### Via Laravel Tinker
+```bash
+# Masuk ke container Laravel
+docker-compose exec app bash
+
+# Jalankan tinker untuk quick check
+php artisan tinker
+
+# Di dalam tinker:
+# App\Models\Category::count();  // Harus return 5
+# App\Models\Animal::count();    // Return jumlah animals jika ada
+# exit
+
+# Exit dari container
+exit
 ```
 
 Tabel yang harus ada:
@@ -300,6 +439,29 @@ docker-compose exec mysql mysqladmin -u user -ppassword ping
 
 # Reset database jika perlu
 docker-compose exec app php artisan migrate:fresh --seed
+```
+
+### Seeder Issues
+
+```bash
+# Jika CategorySeeder gagal
+docker-compose exec app php artisan db:seed --class=CategorySeeder --force
+
+# Jika AnimalSeeder gagal karena foreign key
+# Pastikan CategorySeeder sudah jalan terlebih dahulu
+docker-compose exec app php artisan db:seed --class=CategorySeeder
+docker-compose exec app php artisan db:seed --class=AnimalSeeder
+
+# Reset dan fresh seeding
+docker-compose exec app php artisan migrate:fresh
+docker-compose exec app php artisan db:seed
+
+# Manual category creation via API jika seeder tidak berfungsi
+curl -X POST "http://localhost:8080/api/categories" -H "Content-Type: application/json" -d '{"type": "Anjing"}'
+curl -X POST "http://localhost:8080/api/categories" -H "Content-Type: application/json" -d '{"type": "Kucing"}'
+curl -X POST "http://localhost:8080/api/categories" -H "Content-Type: application/json" -d '{"type": "Kelinci"}'
+curl -X POST "http://localhost:8080/api/categories" -H "Content-Type: application/json" -d '{"type": "Reptil"}'
+curl -X POST "http://localhost:8080/api/categories" -H "Content-Type: application/json" -d '{"type": "Lainnya"}'
 ```
 
 ### Permission Issues
@@ -394,6 +556,54 @@ docker-compose up -d --build
 
 # Run new migrations if any
 docker-compose exec app php artisan migrate
+```
+
+### Quick Commands untuk Development
+
+```bash
+# Reset database dan seeding ulang
+docker-compose exec app php artisan migrate:fresh --seed
+
+# Hanya reset categories
+docker-compose exec app php artisan db:seed --class=CategorySeeder --force
+
+# Clear cache aplikasi
+docker-compose exec app php artisan cache:clear
+docker-compose exec app php artisan config:clear
+docker-compose exec app php artisan route:clear
+
+# Check status semua containers
+docker-compose ps
+
+# Restart specific service
+docker-compose restart [service-name]
+
+# View logs real-time
+docker-compose logs -f [service-name]
+```
+
+### API Quick Test Commands
+
+```bash
+# Test semua endpoint utama
+curl http://localhost:8080/api/health
+curl http://localhost:8080/api/categories
+curl http://localhost:8080/api/animals
+
+# Test POST category
+curl -X POST "http://localhost:8080/api/categories" \
+  -H "Content-Type: application/json" \
+  -d '{"type": "TestCategory"}'
+
+# Test POST animal dengan form-data
+curl -X POST "http://localhost:8080/api/animals" \
+  -F "name_animal=TestAnimal" \
+  -F "name_owner=TestOwner" \
+  -F "type_animal=Anjing" \
+  -F "email_owner=test@example.com" \
+  -F "phone_owner=08123456789" \
+  -F "weight=10" \
+  -F "time_registered=2025-09-19 15:00:00"
 ```
 
 ### Backup Database
